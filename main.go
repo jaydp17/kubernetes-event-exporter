@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"time"
 
 	"github.com/opsgenie/kubernetes-event-exporter/pkg/exporter"
 	"github.com/opsgenie/kubernetes-event-exporter/pkg/kube"
@@ -36,10 +35,7 @@ func main() {
 		log.Fatal().Err(err).Msg("cannot parse config to YAML")
 	}
 
-	log.Logger = log.With().Caller().Logger().Output(zerolog.ConsoleWriter{
-		Out:        os.Stdout,
-		TimeFormat: time.RFC3339,
-	}).Level(zerolog.DebugLevel)
+	log.Logger = log.With().Caller().Logger().Level(zerolog.DebugLevel)
 
 	if cfg.LogLevel != "" {
 		level, err := zerolog.ParseLevel(cfg.LogLevel)
